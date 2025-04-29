@@ -106,7 +106,7 @@
                     <label>Navigation</label>
                 </li>
                 <li class="pc-item">
-                    <a href="../dashboard/index.html" class="pc-link">
+                    <a href="{{route('dashboard.index')}}" class="pc-link">
             <span class="pc-micon">
               <i data-feather="home"></i>
             </span>
@@ -118,7 +118,7 @@
                     <i data-feather="feather"></i>
                 </li>
                 <li class="pc-item">
-                    <a href="../elements/bc_color.html" class="pc-link">
+                    <a href="{{route('transaction.index')}}" class="pc-link">
                         <span class="pc-micon"><i class="fa-poop"></i></span>
                         <span class="pc-mtext">Transaction</span>
                     </a>
