@@ -119,8 +119,8 @@
                 </li>
                 <li class="pc-item">
                     <a href="../elements/bc_color.html" class="pc-link">
-                        <span class="pc-micon"><i data-feather="droplet"></i></span>
-                        <span class="pc-mtext">Color</span>
+                        <span class="pc-micon"><i class="fa-poop"></i></span>
+                        <span class="pc-mtext">Transaction</span>
                     </a>
                 </li>
                 <li class="pc-item">
@@ -211,19 +211,6 @@
                 </li>
 
             </ul>
-            <div class="card pc-user-card my-3 bg-white bg-opacity-10">
-                <div class="card-body text-center">
-                    <img src="../assets/images/application/img-coupon.png" alt="img" class="img-fluid w-50" />
-                    <h5 class="mb-0 text-white mt-1">Datta Able</h5>
-                    <p class="text-white">Checkout pro features</p>
-                    <a href="https://codedthemes.com/item/datta-able-bootstrap-admin-template/" target="_blank" class="btn btn-warning">
-                        <svg class="pc-icon me-2">
-                            <use xlink:href="#custom-logout-1-outline"></use>
-                        </svg>
-                        Upgrade to Pro
-                    </a>
-                </div>
-            </div>
         </div>
     </div>
 </nav>
@@ -441,6 +428,7 @@
 <!-- [ Header ] end -->
 
 
+
 <!-- [ Main Content ] start -->
 <div class="pc-container">
     <div class="pc-content">
@@ -465,7 +453,10 @@
         </div>
         <!-- [ breadcrumb ] end -->
 
+
         @yield('content')
+
+
     </div>
 </div>
 <!-- [ Main Content ] end -->
@@ -503,6 +494,17 @@
 <script src="../assets/js/theme.js"></script>
 <script src="../assets/js/plugins/feather.min.js"></script>
 
+<script>
+    $(function () {
+
+        @if(session()->has('gagal'))
+        toastr.error('{{Session::get('gagal')}}', 'Error')
+        @endif
+        @if(session()->has('success'))
+        toastr.success('{{Session::get('success')}}', 'Berhasil')
+        @endif
+    });
+</script>
 
 <script>
     layout_change('light');
@@ -532,4 +534,3 @@
 </body>
 <!-- [Body] end -->
 </html>
-

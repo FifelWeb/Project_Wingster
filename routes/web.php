@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,9 +14,12 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/dashboard', function () {
-    return view('backend.dashboard');
+Route::get('/', function () {
+    return view('welcome');
 });
 
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-
+Route::group(['prefix' => 'transaction'],function(){
+    Route::get('/', [TransactionController::class, 'index'])->name('transaction.index');
+    Route::post('/search-barcode', [TransactionController::class, 'searchProduct'])->name('transaction.searchProduct');
+    Route::post('/insert', [TransactionController::class, 'insert'])->name('transaction.insert');
+});

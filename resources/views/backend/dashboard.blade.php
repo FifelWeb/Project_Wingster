@@ -1,5 +1,4 @@
 @extends('layouts.main')
-@section('title','dashboard')
 @section('content')
     <!-- [ Main Content ] start -->
     <div class="row">
