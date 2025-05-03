@@ -35,4 +35,5 @@ Route::group(['prefix' => 'transaction'],function(){
     Route::get('/', [TransactionController::class, 'index'])->name('transaction.index');
     Route::post('/search-barcode', [TransactionController::class, 'searchProduct'])->name('transaction.searchProduct');
     Route::post('/insert', [TransactionController::class, 'insert'])->name('transaction.insert');
+    Route::post('/get-pesanan', [TransactionController::class, 'pesanan'])->name('transaction.pesanan');
 });

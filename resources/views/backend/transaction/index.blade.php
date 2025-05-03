@@ -15,6 +15,22 @@
             <div class="col-lg-8 col-md-12 mt-3 pl-md-4">
                 <div class="card">
                     <div class="card-body">
+
+                        {{--View Pilih pesanan--}}
+                        <div class="form-group">
+                            <label for="select-pesanan">Pilih Pesanan</label>
+                            <select id="select-pesanan" class="form-control">
+                                <option value="">Pilih Pesanan</option>
+                                @foreach($pesanans as $pesanan)
+                                    <option value="{{ $pesanan->id }}"
+                                            data-customer="{{ $pesanan->nama_pelanggan }}"
+                                            data-total="{{ $pesanan->total_harga }}">
+                                        {{ $pesanan->nama_pelanggan }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
                         <div class="form-group">
                             <label for="customer-name">Nama Pelanggan</label>
                             <input type="text" id="customer-name" name="customer_name" class="form-control" placeholder="Nama Pelanggan" required>
@@ -114,6 +130,48 @@
 @push('js')
     <script>
         $(function () {
+            //Event untuk select pesanan
+            $('#select-pesanan').on('change', function () {
+                const pesananId = $(this).val();
+                const selectedOption = $(this).find('option:selected');
+                const customerName = selectedOption.data('customer') || '';
+
+                $('#customer-name').val(customerName);
+                $('#table-cart tbody').empty();
+
+                if (!pesananId) {
+                    hitungTotalBelanja();
+                    return;
+                }
+
+                $.ajax({
+                    url: '{{ url('/transaction/get-pesanan') }}',
+                    type: 'POST',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        pesanan_id: pesananId
+                    },
+                    success: function (response) {
+                        if (response.products && response.products.length > 0) {
+                            response.products.forEach(product => addProductToTable(product));
+                            toastr.success('Pesanan berhasil dimuat', 'Berhasil');
+
+                            if (!$('#pesanan-id-hidden').length) {
+                                $('form').append('<input type="hidden" id="pesanan-id-hidden" name="pesanan_id" value="' + pesananId + '">');
+                            } else {
+                                $('#pesanan-id-hidden').val(pesananId);
+                            }
+
+                        } else {
+                            toastr.warning('Pesanan tidak memiliki produk', 'Peringatan');
+                        }
+                    },
+                    error: function () {
+                        toastr.error('Gagal memuat pesanan', 'Error');
+                    }
+                });
+            });
+
             // Event untuk input barcode
             $('#input-barcode').on('keypress', function (e) {
                 if (e.which === 13) {

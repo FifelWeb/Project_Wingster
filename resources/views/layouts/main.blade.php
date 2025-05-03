@@ -494,6 +494,11 @@
 <script src="../assets/js/theme.js"></script>
 <script src="../assets/js/plugins/feather.min.js"></script>
 
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+
 <script>
     $(function () {
 
@@ -505,6 +510,10 @@
         @endif
     });
 </script>
+
+{{--srcipt js transaction--}}
+@stack('js')
+
 
 <script>
     layout_change('light');
