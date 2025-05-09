@@ -2,10 +2,10 @@
 @section('content')
 
     <div class="row">
-        <div class="col-lg-12 px-md-4">
+        <div class="col-lg-8 col-md-12 mt-3 pl-md-4">
             <h1 class="h3 mb-2 text-gray-800">App Transaction</h1>
         </div>
-        <div class="col-lg-12 px-md-4">
+        <div class="col-lg-8 col-md-12 mt-3 pl-md-4">
             <input type="text" id="input-barcode" name="barcode" class="form-control" placeholder="Scan Barcode"/>
         </div>
     </div>
@@ -92,7 +92,7 @@
         <div class="col-lg-12 px-md-4">
             <h1 class="h3 mb-2 text-gray-800">List Transaction</h1>
         </div>
-        <div class="col-lg-12 px-md-4">
+        <div class="col-lg-12 col-md-12 mt-3 pl-md-4">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
