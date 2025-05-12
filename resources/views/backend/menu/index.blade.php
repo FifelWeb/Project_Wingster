@@ -37,7 +37,7 @@
                                 <td>{{ $loop->iteration}}</td>
                                 <td>{{ $menu->name_menu }}</td>
                                 <td>Rp {{ number_format($menu->price, 0, ',', '.') }}</td>
-                                <td>{{ $menu->category->name_category }}</td>
+                                <td>{{ $menu->categories->name_category }}</td>
                                 <td>
                                     @if($menu->image)
                                         <img src="{{ asset('storage/' . $menu->image) }}" width="80">

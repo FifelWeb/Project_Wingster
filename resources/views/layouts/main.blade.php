@@ -104,9 +104,16 @@
                         <span class="pc-mtext">Dashboard</span>
                     </a>
                 </li>
+
                 <li class="pc-item pc-caption">
-                    <label>UI Components</label>
+                    <label>Data</label>
                     <i data-feather="feather"></i>
+                </li>
+                <li class="pc-item">
+                    <a href="{{route('menu.index')}}" class="pc-link">
+                        <span class="pc-micon"><i class="fas fa-utensils fa-lg"></i></span>
+                        <span class="pc-mtext">Menu</span>
+                    </a>
                 </li>
                 <li class="pc-item">
                     <a href="{{route('transaction.index')}}" class="pc-link">
@@ -116,16 +123,11 @@
                 </li>
                 <li class="pc-item">
                     <a href="{{route('category.index')}}" class="pc-link">
-                        <span class="pc-micon"><i data-feather="type"></i></span>
+                        <span class="pc-micon"><i class="fas fa-layer-group fa-lg"></i></span>
                         <span class="pc-mtext">Category</span>
                     </a>
                 </li>
-                <li class="pc-item">
-                    <a href="../elements/icon-feather.html" class="pc-link">
-                        <span class="pc-micon"><i data-feather="feather"></i></span>
-                        <span class="pc-mtext">Icons</span>
-                    </a>
-                </li>
+
                 <li class="pc-item pc-caption">
                     <label>Pages</label>
                     <i data-feather="monitor"></i>

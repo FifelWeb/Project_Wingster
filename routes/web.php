@@ -25,6 +25,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+/*Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');*/
+
 
 /*Route Login*/
 Route::get('/login',[\App\Http\Controllers\AuthController::class,'index'])->name('auth.login');
