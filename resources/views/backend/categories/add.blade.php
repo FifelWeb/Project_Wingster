@@ -19,11 +19,11 @@
             <div class="col-lg-12 col-md-12 mt-3 pl-md-4">
                 <div class="card">
                     <div class="card-body">
-                        <form action="{{-- {{ route('category.store') }} --}}" method="POST">
+                        <form action="{{ route('category.store') }} " method="POST">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nama Kategori</label>
-                                <input type="text" name="name" id="name" value="{{ old('name') }}" class="form-control">
+                                <input type="text" name="name_category" id="name_category" value="{{ old('name_category') }}" class="form-control">
                             </div>
 
                             <button type="submit" class="btn btn-primary mt-2">Tambah</button>

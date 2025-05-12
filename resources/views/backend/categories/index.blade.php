@@ -12,7 +12,7 @@
         <div class="row mt-3 mb-2">
             <div class="col d-flex justify-content-between align-items-center">
                 <h1 class="h3 text-gray-800 mb-0">List Kategori</h1>
-                <a href="{{route('categories.add')}}" class="btn btn-sm btn-primary">Tambah Kategori</a>
+                <a href="{{route('category.add')}}" class="btn btn-sm btn-primary">Tambah Kategori</a>
             </div>
         </div>
 
@@ -25,7 +25,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Kategori</th>
-                                <th>Description</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -34,15 +34,15 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $category->name_category }}</td>
-                                    <td>{{ $category->description_category }}</td>
+                                    <td>{{( $category->status_category == 1) ? 'Aktif' : "Tidak Aktif"}}</td>
                                     <td>
-                                        <a href="#" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+                                        <a href="{{route('category.edit',$category->id)}}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
 
-                                        <form id="#" action="#" method="post" style="display:none;">
+                                        <form id="delete-kategori-{{$category->id}}" action="{{route('category.delete', $category->id)}}" method="post" style="display:none;">
                                             @csrf
                                         </form>
 
-                                        <a onclick="/*confirmDelete*/" class="btn btn-danger"><i class="fa fa-trash"></i></a>
+                                        <a onclick="confirmDelete({{$category->id}})" class="btn btn-danger"><i class="fa fa-trash"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -53,4 +53,28 @@
             </div>
         </div>
     </section>
+
+    <script>
+        function confirmDelete(id){
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your file has been deleted.",
+                        icon: "success"
+                    }).then(()=>{
+                        document.getElementById('delete-kategori-' + id).submit();
+                    });
+                }
+            });
+        }
+    </script>
 @endsection

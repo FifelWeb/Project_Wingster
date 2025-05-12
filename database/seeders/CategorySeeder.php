@@ -15,15 +15,15 @@ class CategorySeeder extends Seeder
     {
         Category::create([
             'name_category' =>'Makanan',
-            'description_category'=>'Makanan'
+            'status_category'=>1
         ]);
         Category::create([
             'name_category' =>'Minuman',
-            'description_category'=>'Minuman'
+            'status_category'=>1
         ]);
         Category::create([
             'name_category' =>'Snack',
-            'description_category'=>'Snack'
+            'status_category'=>1
         ]);
     }
 }

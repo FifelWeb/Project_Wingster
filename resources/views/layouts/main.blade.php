@@ -504,6 +504,12 @@
 {{--srcipt js transaction--}}
 @stack('js')
 
+{{--SweetAlert--}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace('editor');
+</script>
 
 <script>
     layout_change('light');

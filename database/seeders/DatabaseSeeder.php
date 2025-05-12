@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             TransactionSeeder::class,
             PesananSeeder::class,
             CategorySeeder::class,
+            MenuSeeder::class,
         ]);
 
     }
