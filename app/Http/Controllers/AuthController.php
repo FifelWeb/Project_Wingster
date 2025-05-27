@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -14,23 +17,56 @@ class AuthController extends Controller
 
     public function verify(Request $request)
     {
-        $this->validate($request,[
-            'email' => 'required|email',
-            'password' => 'required'
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            $user = Auth::user();
+
+            // ✅ Redirect berdasarkan role
+            if ($user->role === 'admin') {
+                return redirect()->route('dashboard.index');
+            } elseif ($user->role === 'customer') {
+                return redirect()->route('home.index');
+            } else {
+                Auth::logout();
+                return redirect()->route('auth.login')->withErrors(['email' => 'Role tidak dikenali.']);
+            }
+        }
+    }
+    // Menampilkan halaman register
+    public function register()
+    {
+        return view('auth.register');
+    }
+
+    // Proses registrasi (POST)
+    public function registerPost(Request $request)
+    {
+        // Validasi input form
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
-        if(Auth::guard('user')->attempt(['email'=> $request->email, 'password' => $request->password])){
-            $user = Auth::guard('user')->user();
+        // Simpan user baru ke database
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'customer', // default role
+        ]);
 
-            /*// cek apakah user sudah diaktivasi
-            if (!$user->is_active) {
-                Auth::guard('user')->logout();
-                return redirect()->route('auth.index')->with('pesan', 'Akun belum diaktivasi. Silakan cek email Anda untuk aktivasi akun.');
-            }*/
-            Auth::login($user);
-            return redirect()->intended('/dashboard');
-        }else{
-            return redirect(route('auth.index'))->with('pesan','Kombinasi email dan password salah');
-        }
+        // Tidak login otomatis → langsung redirect ke login
+        return redirect()->route('auth.login')->with('success', 'Registrasi berhasil. Silakan login.');
+    }
+
+    // Logout
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('auth.login');
     }
 }

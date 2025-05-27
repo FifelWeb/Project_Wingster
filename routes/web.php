@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TransactionController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
@@ -20,21 +22,30 @@ use App\Http\Controllers\CategoryController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
 Route::get('/', function () {
-    return view('welcome');
+    if (Auth::check()) {
+        return redirect()->route(Auth::user()->role === 'admin' ? 'dashboard.index' : 'home.index');
+    }
+    return redirect()->route('auth.login');
 });
 
-/*Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home.index');*/
+/* Login & Register */
+Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
+Route::post('/login', [AuthController::class, 'verify'])->name('auth.verify');
 
+Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
+Route::post('/register', [AuthController::class, 'registerPost'])->name('auth.register.post');
 
-/*Route Login*/
-Route::get('/login',[\App\Http\Controllers\AuthController::class,'index'])->name('auth.login');
-Route::post('/login',[\App\Http\Controllers\AuthController::class,'verify'])->name('auth.verify');
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
-/*Route Dashboard*/
-Route::group(['middleware' => 'auth'], function () {
+/* Admin Routes */
+Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+});
+
+/* Customer Routes */
+Route::middleware(['auth', 'role:customer'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home.index');
 });
 
 /*Route Transaction*/

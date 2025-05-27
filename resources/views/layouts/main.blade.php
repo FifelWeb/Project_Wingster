@@ -133,13 +133,13 @@
                     <i data-feather="monitor"></i>
                 </li>
                 <li class="pc-item">
-                    <a href="../pages/login-v1.html" target="_blank" class="pc-link">
+                    <a href="{{route('auth.login')}}" target="_blank" class="pc-link">
                         <span class="pc-micon"><i data-feather="lock"></i></span>
                         <span class="pc-mtext">Login</span>
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="../pages/register-v1.html" target="_blank" class="pc-link">
+                    <a href="{{route('auth.register')}}" target="_blank" class="pc-link">
                         <span class="pc-micon"><i data-feather="user-plus"></i></span>
                         <span class="pc-mtext">Register</span>
                     </a>
@@ -403,14 +403,16 @@
                 <span>Change Password</span>
               </span>
                                 </a>
+                                <form method="POST" action="{{ route('auth.logout') }}">
                                 <div class="d-grid my-2">
                                     <button class="btn btn-primary">
-                                        <svg class="pc-icon me-2">
-                                            <use xlink:href="#custom-logout-1-outline"></use></svg
+                                        <svg class="pc-icon me-2"></svg
                                         >Logout
                                     </button>
                                 </div>
+                                </form>
                             </div>
+
                         </div>
                     </div>
                 </li>
