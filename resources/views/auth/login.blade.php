@@ -3,6 +3,17 @@
 
     <div class="auth-main">
         <div class="auth-wrapper v1">
+
+            @if ($errors->any())
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="auth-form">
                 <div class="position-relative my-5">
                     <div class="auth-bg">
