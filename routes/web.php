@@ -41,6 +41,22 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 /* Admin Routes */
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    /*Category*/
+    Route::get('/category',[CategoryController::class, 'index'])->name('category.index');
+    Route::get('/category/add',[CategoryController::class, 'add'])->name('category.add');
+    Route::post('/category/store',[CategoryController::class, 'store'])->name('category.store');
+    Route::get('/category/edit{id}',[CategoryController::class, 'edit'])->name('category.edit');
+    Route::post('/category/update',[CategoryController::class, 'update'])->name('category.update');
+    Route::post('/category/delete{id}',[CategoryController::class, 'delete'])->name('category.delete');
+
+    /*Route Menu*/
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+    Route::get('/menu/add', [MenuController::class, 'add'])->name('menu.add');
+    Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
+    Route::get('/menu/edit{id}', [MenuController::class, 'edit'])->name('menu.edit');
+    Route::put('/menu/update{id}', [MenuController::class, 'update'])->name('menu.update');
+    Route::delete('menu/delete{id}', [MenuController::class, 'delete'])->name('menu.delete');
 });
 
 /* Customer Routes */
@@ -56,25 +72,10 @@ Route::group(['prefix' => 'transaction'],function(){
     Route::post('/get-pesanan', [TransactionController::class, 'pesanan'])->name('transaction.pesanan');
 });
 
+
+
 Route::group(['middleware' =>['auth:user'] ],function () {
    Route::prefix('dashboard')->group(function () {
-
-       /*Category*/
-       Route::get('/category',[CategoryController::class, 'index'])->name('category.index');
-       Route::get('/category/add',[CategoryController::class, 'add'])->name('category.add');
-       Route::post('/category/store',[CategoryController::class, 'store'])->name('category.store');
-       Route::get('/category/edit{id}',[CategoryController::class, 'edit'])->name('category.edit');
-       Route::post('/category/update',[CategoryController::class, 'update'])->name('category.update');
-       Route::post('/category/delete{id}',[CategoryController::class, 'delete'])->name('category.delete');
-
-       /*Route Menu*/
-       Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
-       Route::get('/menu/add', [MenuController::class, 'add'])->name('menu.add');
-       Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
-       Route::get('/menu/edit{id}', [MenuController::class, 'edit'])->name('menu.edit');
-       Route::put('/menu/update{id}', [MenuController::class, 'update'])->name('menu.update');
-       Route::delete('menu/delete{id}', [MenuController::class, 'delete'])->name('menu.delete');
-
    });
 });
 /*Route Storage*/
