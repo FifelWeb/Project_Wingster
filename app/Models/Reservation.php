@@ -15,6 +15,7 @@ class Reservation extends Model
         'booking_date',
         'booking_time',
         'customer_name',
+        'customer_email',
         'number_of_guests',
         'status',
     ];

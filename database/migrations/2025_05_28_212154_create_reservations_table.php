@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('booking_date');
             $table->time('booking_time');
             $table->string('customer_name');
+            $table->string('customer_email')->nullable();
             $table->integer('number_of_guests');
             $table->string('status')->default('pending'); // pending, confirmed, cancelled
             $table->timestamps();

@@ -24,6 +24,7 @@ class BookingController extends Controller
             'jam_booking' => 'required|date_format:H:i', // Asumsi ada input jam booking
             'nama_pemesan' => 'required|string|max:255', // Asumsi ada input nama pemesan
             'jumlah_orang' => 'required|integer|min:1', // Asumsi ada input jumlah orang
+            'customer_email' => 'required|email|max:255',
             // Tambahkan validasi lain sesuai kebutuhan form Anda
         ]);
 
@@ -37,6 +38,7 @@ class BookingController extends Controller
                 'booking_time' => $request->jam_booking,
                 'customer_name' => $request->nama_pemesan, // Contoh kolom
                 'number_of_guests' => $request->jumlah_orang, // Contoh kolom
+                'customer_email' => $request->customer_email,
                 'status' => 'pending', // Status awal: pending, confirmed, cancelled
                 // Tambahkan kolom lain sesuai kebutuhan Anda
             ]);

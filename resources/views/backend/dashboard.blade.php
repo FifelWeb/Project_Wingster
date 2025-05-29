@@ -53,10 +53,10 @@
             <div class="col-md-12 col-xl-4 mb-4">
                 <div class="card shadow border-0">
                     <div class="card-body position-relative">
-                        <h6 class="mb-2">Category Menu</h6>
+                        <h6 class="mb-2">Reservaation</h6>
                         <div class="row align-items-center">
                             <div class="col-9">
-                                <div class="h4 font-weight-bold text-warning">{{ $totalCategory }}</div>
+                                <div class="h4 font-weight-bold text-warning">{{ $totalReservation }}</div>
                             </div>
                             <div class="col-3 text-end">
                                 <div class="bg-warning text-white rounded-circle p-3">
@@ -64,7 +64,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{{ route('category.index') }}" class="small d-block mt-3 text-warning">
+                        <a href="{{ route('admin.dashboard') }}" class="small d-block mt-3 text-warning">
                             More info <i class="fas fa-arrow-circle-right"></i>
                         </a>
                     </div>

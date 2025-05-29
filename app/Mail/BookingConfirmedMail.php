@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\Reservation; // Import model Reservation
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -13,12 +14,14 @@ class BookingConfirmedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $reservation; // Properti untuk menyimpan data booking
+
     /**
      * Create a new message instance.
      */
-    public function __construct()
+    public function __construct(Reservation $reservation)
     {
-        //
+        $this->reservation = $reservation; // Inisialisasi data booking
     }
 
     /**
@@ -27,7 +30,7 @@ class BookingConfirmedMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Booking Confirmed Mail',
+            subject: 'Konfirmasi Booking Meja Anda di ' . config('app.name'), // Subject email
         );
     }
 
@@ -37,7 +40,9 @@ class BookingConfirmedMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.booking_confirmed', // Nama view Blade untuk template email
+        // Anda bisa juga menggunakan 'markdown' jika ingin template Markdown
+        // markdown: 'emails.booking_confirmed_markdown',
         );
     }
 
@@ -48,6 +53,6 @@ class BookingConfirmedMail extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        return []; // Jika Anda ingin melampirkan file
     }
 }
