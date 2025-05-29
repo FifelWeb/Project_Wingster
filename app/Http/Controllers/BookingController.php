@@ -4,42 +4,58 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservation;
 use App\Models\Table;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 
 // app/Http/Controllers/BookingController.php
 class BookingController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $availableTables = Table::whereDoesntHave('reservations', function ($query) {
-            $query->where('booking_time', now()); // bisa ditambah range waktu
-        })->get();
+        $availableTables = collect();
 
-        return view('booking.index', compact('availableTables'));
+        if ($request->filled('booking_time')) {
+            $bookingTime = Carbon::parse($request->input('booking_time'));
+            $rangeStart = $bookingTime->copy()->subHour();
+            $rangeEnd = $bookingTime->copy()->addHour();
+
+            $availableTables = Table::whereDoesntHave('reservations', function ($query) use ($rangeStart, $rangeEnd) {
+                $query->whereBetween('booking_time', [$rangeStart, $rangeEnd]);
+            })->get();
+        }
+
+        return view('frontend.booking.index', compact('availableTables'));
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'table_id' => 'required|exists:tables,id',
-            'booking_time' => 'required|date|after:now',
+            'booking_time' => 'required|date|after_or_equal:now',
         ]);
 
-        $alreadyBooked = Reservation::where('table_id', $request->table_id)
-            ->where('booking_time', $request->booking_time)
+        $bookingTime = Carbon::parse($request->input('booking_time'));
+        $rangeStart = $bookingTime->copy()->subHour();
+        $rangeEnd = $bookingTime->copy()->addHour();
+
+        // Cek apakah meja tersedia
+        $isBooked = Reservation::where('table_id', $request->table_id)
+            ->whereBetween('booking_time', [$rangeStart, $rangeEnd])
             ->exists();
 
-        if ($alreadyBooked) {
-            return back()->with('error', 'Meja sudah dipesan di waktu tersebut.');
+        if ($isBooked) {
+            return back()->withErrors(['table_id' => 'Meja sudah dibooking di waktu tersebut. Silakan pilih yang lain.']);
         }
 
+        // Simpan booking
         Reservation::create([
             'user_id' => auth()->id(),
             'table_id' => $request->table_id,
-            'booking_time' => $request->booking_time,
+            'booking_time' => $bookingTime,
             'status' => 'pending',
         ]);
 
-        return redirect()->route('booking.index')->with('success', 'Reservasi berhasil dibuat, menunggu konfirmasi admin.');
+        return redirect()->route('booking.index')->with('success', 'Reservasi berhasil dibuat.');
     }
 }

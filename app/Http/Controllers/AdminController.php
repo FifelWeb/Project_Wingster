@@ -11,7 +11,7 @@ class AdminController extends Controller
     public function reservations()
     {
         $reservations = Reservation::with('user', 'table')->get();
-        return view('admin.reservations', compact('reservations'));
+        return view('backend.admin.reservations', compact('reservations'));
     }
 
     public function confirm($id)

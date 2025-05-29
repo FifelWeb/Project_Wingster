@@ -127,6 +127,12 @@
                         <span class="pc-mtext">Category</span>
                     </a>
                 </li>
+                <li class="pc-item">
+                    <a href="{{ route('admin.reservations') }}" class="pc-link">
+                        <span class="pc-micon"><i class="fas fa-calendar-check fa-lg"></i></span>
+                        <span class="pc-mtext">Reservation</span>
+                    </a>
+                </li>
 
                 <li class="pc-item pc-caption">
                     <label>Pages</label>

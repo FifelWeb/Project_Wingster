@@ -29,7 +29,7 @@ class UserSeeder extends Seeder
                 'name' => 'User',
                 'email' => 'user@gmail.com',
                 'password' => Hash::make('password'),
-                'role' => 'customer', // ✅
+                'role' => 'customer', //
                 'is_active' => 1
             ]
             ]);
