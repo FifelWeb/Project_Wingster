@@ -128,7 +128,7 @@
                     </a>
                 </li>
                 <li class="pc-item">
-                    <a href="{{ route('admin.reservations') }}" class="pc-link">
+                    <a href="{{ route('admin.dashboard') }}" class="pc-link">
                         <span class="pc-micon"><i class="fas fa-calendar-check fa-lg"></i></span>
                         <span class="pc-mtext">Reservation</span>
                     </a>

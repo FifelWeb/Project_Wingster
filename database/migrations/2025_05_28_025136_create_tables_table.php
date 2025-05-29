@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('tables', function (Blueprint $table) {
             $table->id();
-            $table->string('table_number')->unique(); // e.g. T01, T02
+            $table->string('nomor_meja')->unique(); // Misalnya 'M1', 'M2', 'VIP1'
+            $table->integer('kapasitas'); // Kapasitas meja
+            $table->boolean('tersedia')->default(true); // Status ketersediaan
             $table->timestamps();
         });
     }

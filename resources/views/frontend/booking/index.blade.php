@@ -1,41 +1,75 @@
+@extends('frontend.layout.main')
 
-    <div class="container">
-        <h2>Booking Meja</h2>
+@section('content')
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
 
-        {{-- Form untuk memilih waktu reservasi --}}
-        <form method="GET" action="{{ route('booking.index') }}" class="mb-4">
-            <label for="booking_time">Pilih Waktu Reservasi:</label>
-            <input type="datetime-local" name="booking_time" id="booking_time"
-                   value="{{ request('booking_time') }}" required>
-            <button type="submit">Cek Ketersediaan</button>
-        </form>
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
 
-        {{-- Menampilkan hasil berdasarkan pilihan waktu --}}
-        @if (request('booking_time'))
-            @if ($availableTables->count())
-                {{-- Form Booking --}}
-                <form method="POST" action="{{ route('booking.store') }}">
-                    @csrf
-                    <div>
-                        <label for="table_id">Pilih Meja:</label>
-                        <select name="table_id" id="table_id" required>
-                            <option value="" disabled selected>-- Pilih Meja --</option>
-                            @foreach ($availableTables as $table)
-                                <option value="{{ $table->id }}">Meja {{ $table->table_number }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+    {{-- Pastikan Anda juga menampilkan validasi error di setiap input --}}
+    {{-- Contoh:
+        <input type="text" name="nama_pemesan" class="form-control">
+        @error('nama_pemesan')
+            <div class="text-danger">{{ $message }}</div>
+        @enderror
+    --}}
 
-                    {{-- Kirim ulang waktu booking --}}
-                    <input type="hidden" name="booking_time" value="{{ request('booking_time') }}">
+    <form action="{{ route('booking.store') }}" method="POST">
+        <div class="form-group">
+            <label for="nama_pemesan">Nama Pemesan</label>
+            <input type="text" class="form-control" id="nama_pemesan" name="nama_pemesan" required value="{{ old('nama_pemesan') }}">
+            @error('nama_pemesan')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+        @csrf
+        <div class="form-group">
+            <label for="nomor_meja">Pilih Meja</label>
+            <select class="form-control" id="nomor_meja" name="nomor_meja" required>
+                <option value="">-- Pilih Meja --</option>
+                @foreach($tables as $table)
+                    {{-- Gunakan $meja->id sebagai value dan $meja->nomor_meja sebagai teks yang ditampilkan --}}
+                    <option value="{{ $table->id }}">{{ $table->nomor_meja }} (Kapasitas: {{ $table->kapasitas }})</option>
+                @endforeach
+            </select>
+            @error('nomor_meja')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
 
-                    <button type="submit">Booking</button>
-                </form>
-            @else
-                <p><strong>Tidak ada meja tersedia</strong> pada waktu tersebut.</p>
-            @endif
-        @else
-            <p>Silakan pilih waktu reservasi untuk melihat ketersediaan meja.</p>
-        @endif
-    </div>
+        <div class="form-group mt-3">
+            <label for="tanggal_booking">Tanggal Booking</label>
+            <input type="date" class="form-control" id="tanggal_booking" name="tanggal_booking" required>
+            @error('tanggal_booking')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
 
+        <div class="form-group mt-3">
+            <label for="jam_booking">Jam Booking</label>
+            <input type="time" class="form-control" id="jam_booking" name="jam_booking" required value="{{ old('jam_booking') }}">
+            @error('jam_booking')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group mt-3">
+            <label for="jumlah_orang">Jumlah Tamu</label>
+            <input type="number" class="form-control" id="jumlah_orang" name="jumlah_orang" required min="1" value="{{ old('jumlah_orang', 1) }}">
+            @error('jumlah_orang')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        {{-- Tambahkan input lain jika ada (misal: jam booking, nama pelanggan, dll) --}}
+
+        <button type="submit" class="btn btn-primary mt-4">Booking</button>
+    </form>
+@endsection

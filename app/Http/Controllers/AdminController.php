@@ -8,28 +8,28 @@ use Illuminate\Http\Request;
 // app/Http/Controllers/AdminController.php
 class AdminController extends Controller
 {
-    public function reservations()
+    public function admin()
     {
-        $reservations = Reservation::with('user', 'table')->get();
+        // Ambil semua reservasi, urutkan dari yang terbaru atau berdasarkan tanggal/jam
+        $reservations = Reservation::with('table') // Mengambil detail meja terkait
+        ->orderBy('booking_date', 'asc')
+            ->orderBy('booking_time', 'asc')
+            ->paginate(10); // Untuk pagination
+
         return view('backend.admin.reservations', compact('reservations'));
     }
 
-    public function confirm($id)
+    // Metode lain untuk admin, misal: konfirmasi, batalkan booking, dll.
+    public function confirmBooking(Reservation $reservation)
     {
-        $reservation = Reservation::findOrFail($id);
-        $reservation->status = 'confirmed';
-        $reservation->save();
-
-        return back()->with('success', 'Reservasi telah dikonfirmasi.');
+        $reservation->update(['status' => 'confirmed']);
+        return redirect()->back()->with('success', 'Booking berhasil dikonfirmasi.');
     }
 
-    public function reject($id)
+    public function cancelBooking(Reservation $reservation)
     {
-        $reservation = Reservation::findOrFail($id);
-        $reservation->status = 'rejected';
-        $reservation->save();
-
-        return back()->with('success', 'Reservasi telah ditolak.');
+        $reservation->update(['status' => 'cancelled']);
+        return redirect()->back()->with('success', 'Booking berhasil dibatalkan.');
     }
 }
 

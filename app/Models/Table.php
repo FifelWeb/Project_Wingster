@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Reservation;
 
 
 class Table extends Model
 {
-    protected $fillable = ['table_number'];
+    use HasFactory;
 
-    public function reservations()
-    {
-        return $this->hasMany(Reservation::class);
-    }
+    protected $fillable = [
+        'nomor_meja',
+        'kapasitas',
+        'tersedia',
+    ];
 }

@@ -43,7 +43,15 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 /* Admin Routes */
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+    Route::get('/reservations', [AdminController::class, 'admin'])->name('admin.dashboard');
+    Route::put('/reservations/{reservation}/confirm', [AdminController::class, 'confirmBooking'])->name('admin.reservations.confirm');
+    Route::put('/reservations/{reservation}/cancel', [AdminController::class, 'cancelBooking'])->name('admin.reservations.cancel');
 });
+/* Customer Routes */
+Route::middleware(['auth', 'role:customer'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home.index');
+});
+
 
 /*Category*/
 Route::get('/category',[CategoryController::class, 'index'])->name('category.index');
@@ -61,10 +69,6 @@ Route::get('/menu/edit{id}', [MenuController::class, 'edit'])->name('menu.edit')
 Route::put('/menu/update{id}', [MenuController::class, 'update'])->name('menu.update');
 Route::delete('menu/delete{id}', [MenuController::class, 'delete'])->name('menu.delete');
 
-/* Customer Routes */
-Route::middleware(['auth', 'role:customer'])->group(function () {
-    Route::get('/home', [HomeController::class, 'index'])->name('home.index');
-});
 
 /*Route Transaction*/
 Route::group(['prefix' => 'transaction'],function(){
@@ -75,14 +79,9 @@ Route::group(['prefix' => 'transaction'],function(){
 });
 
 // routes/web.php
-Route::get('/booking', [BookingController::class, 'index'])->name('booking.index');
-Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
-
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/admin/reservations', [AdminController::class, 'reservations'])->name('admin.reservations');
-    Route::post('/admin/reservations/{id}/confirm', [AdminController::class, 'confirm'])->name('admin.confirm');
-    Route::post('/admin/reservations/{id}/reject', [AdminController::class, 'reject'])->name('admin.reject');
+Route::middleware('auth')->group(function () {
+    Route::get('/booking', [BookingController::class, 'index'])->name('booking.index');
+    Route::post('/booking', [BookingController::class, 'store'])->name('booking.store');
 });
 
 /*Route Storage*/

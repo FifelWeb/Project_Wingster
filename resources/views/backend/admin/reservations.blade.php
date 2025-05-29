@@ -1,40 +1,84 @@
 @extends('layouts.main')
 @section('content')
-    <section>
-        <table>
-            <thead>
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Booking Meja</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Dashboard Admin</h1>
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <h3>Daftar Booking Meja</h3>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nama Pemesan</th>
+            <th>Meja</th>
+            <th>Tanggal</th>
+            <th>Jam</th>
+            <th>Jumlah Tamu</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+        </thead>
+        <tbody>
+        @forelse ($reservations as $reservation)
             <tr>
-                <th>Nama Pelanggan</th>
-                <th>Meja</th>
-                <th>Waktu</th>
-                <th>Status</th>
-                <th>Aksi</th>
+                <td>{{ $reservation->id }}</td>
+                <td>{{ $reservation->customer_name }}</td>
+                <td>{{ $reservation->table->nomor_meja ?? 'N/A' }}</td> {{-- Mengambil nomor meja dari relasi --}}
+                <td>{{ \Carbon\Carbon::parse($reservation->booking_date)->format('d M Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($reservation->booking_time)->format('H:i') }}</td>
+                <td>{{ $reservation->number_of_guests }}</td>
+                <td>
+                            <span class="badge {{
+                                    $reservation->status == 'pending' ? 'bg-warning' :
+                                    ($reservation->status == 'confirmed' ? 'bg-success' : 'bg-danger')
+                                }}">
+                                {{ ucfirst($reservation->status) }}
+                            </span>
+                </td>
+                <td>
+                    @if ($reservation->status == 'pending')
+                        <form action="{{ route('admin.reservations.confirm', $reservation->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-success btn-sm">Konfirmasi</button>
+                        </form>
+                        <form action="{{ route('admin.reservations.cancel', $reservation->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('PUT')
+                            <button type="submit" class="btn btn-danger btn-sm">Batalkan</button>
+                        </form>
+                    @else
+                        -
+                    @endif
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            @foreach ($reservations as $res)
-                <tr>
-                    <td>{{ $res->user->name }}</td>
-                    <td>{{ $res->table->table_number }}</td>
-                    <td>{{ $res->booking_time }}</td>
-                    <td>{{ $res->status }}</td>
-                    <td>
-                        @if ($res->status == 'pending')
-                            <form method="POST" action="{{ route('admin.confirm', $res->id) }}">
-                                @csrf
-                                <button type="submit">Konfirmasi</button>
-                            </form>
-                            <form method="POST" action="{{ route('admin.reject', $res->id) }}">
-                                @csrf
-                                <button type="submit">Tolak</button>
-                            </form>
-                        @else
-                            {{ ucfirst($res->status) }}
-                        @endif
-                    </td>
-                </tr>
-            @endforeach
-            </tbody>
-        </table>
-    </section>
+        @empty
+            <tr>
+                <td colspan="8" class="text-center">Belum ada booking meja.</td>
+            </tr>
+        @endforelse
+        </tbody>
+    </table>
+
+    {{ $reservations->links() }} {{-- Untuk menampilkan pagination --}}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
 @endsection

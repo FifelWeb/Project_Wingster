@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('table_id')->constrained()->onDelete('cascade');
-            $table->dateTime('booking_time');
-            $table->enum('status', ['pending', 'confirmed', 'rejected'])->default('pending');
+            $table->foreignId('user_id')->nullable()->constrained()->onDelete('set null'); // Jika ada user yang login
+            $table->foreignId('table_id')->constrained('tables')->onDelete('cascade'); // Foreign key ke tabel 'tables'
+            $table->date('booking_date');
+            $table->time('booking_time');
+            $table->string('customer_name');
+            $table->integer('number_of_guests');
+            $table->string('status')->default('pending'); // pending, confirmed, cancelled
             $table->timestamps();
         });
     }
