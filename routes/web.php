@@ -41,6 +41,10 @@ Route::get('/', function () {
 /*Route Home*/
 Route::get('/our-menu', [HomeController::class, 'menu'])->name('all.menus');
 Route::get('/menu/{id}/details', [HomeController::class, 'getMenuDetails'])->name('menu.details');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::post('/contact/submit', [HomeController::class, 'submitContactForm'])->name('contact.submit');
+
 
 /* Login & Register */
 Route::get('/login', [AuthController::class, 'index'])->name('auth.login');

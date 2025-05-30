@@ -35,4 +35,24 @@ class HomeController extends Controller
         // Mengembalikan data menu sebagai JSON
         return response()->json($menu);
     }
+    public function about()
+    {
+        return view('frontend.content.about');
+    }
+    public function contact()
+    {
+        return view('frontend.content.contact');
+    }
+
+    public function submitContactForm(Request $request)
+    {
+        // 1. Validasi Data
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'nullable|string|max:255',
+            'message' => 'required|string',
+        ]);
+        return redirect()->route('contact')->with('success', 'Pesan Anda berhasil dikirim!');
+    }
 }
