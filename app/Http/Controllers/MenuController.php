@@ -82,4 +82,11 @@ class MenuController extends Controller
 
         return redirect()->route('menu.index')->with ('success', 'Menu deleted successfully');
     }
+    public function allMenus()
+    {
+        $menus = Menu::all(); // Ambil semua menu dari database
+        return view('frontend.content.allMenu', compact('menus'));
+    }
+
+
 }

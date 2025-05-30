@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Reservation;
-use App\Models\Table; // Asumsi model meja Anda adalah Meja.php
-use Illuminate\Support\Facades\Mail; // Import Mail Facade
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingConfirmedMail;
 class AdminController extends Controller
 {
     public function admin()
     {
-        // Ambil semua reservasi, urutkan dari yang terbaru atau berdasarkan tanggal/jam
-        $reservations = Reservation::with('table') // Mengambil detail meja terkait
+        $reservations = Reservation::with('table')
         ->orderBy('booking_date', 'asc')
             ->orderBy('booking_time', 'asc')
-            ->paginate(10); // Untuk pagination
+            ->paginate(10);
 
         return view('backend.admin.reservations', compact('reservations'));
     }
@@ -22,7 +22,6 @@ class AdminController extends Controller
     // Metode untuk konfirmasi booking
     public function confirmBooking(Reservation $reservation)
     {
-        // Periksa jika status saat ini bukan 'pending' untuk menghindari pengiriman email berulang atau aksi yang tidak perlu
         if ($reservation->status !== 'pending') {
             return redirect()->back()->with('error', 'Booking sudah dikonfirmasi atau dibatalkan sebelumnya.');
         }
@@ -38,16 +37,14 @@ class AdminController extends Controller
 
                 // Tangani error jika pengiriman email gagal
                 \Log::error('Gagal mengirim email konfirmasi booking untuk ID: ' . $reservation->id . '. Error: ' . $e->getMessage() . ' pada ' . $e->getFile() . ' baris ' . $e->getLine());
-                // Opsional: Anda bisa tambahkan pesan error ke sesi untuk admin
                 session()->flash('email_error', 'Email konfirmasi gagal terkirim kepada pelanggan.');
             }
 
         } else {
             \Log::warning('Kolom customer_email kosong untuk booking ID: ' . $reservation->id . '. Email konfirmasi tidak dapat dikirim.');
-            // Opsional: Anda bisa tambahkan pesan peringatan ke sesi
+
             session()->flash('email_warning', 'Email pelanggan tidak ditemukan, konfirmasi tidak terkirim via email.');
         }
-        // --- Akhir Logika Pengiriman Email ---
 
         return redirect()->back()->with('success', 'Booking berhasil dikonfirmasi dan notifikasi telah dikirim.');
     }
@@ -55,14 +52,44 @@ class AdminController extends Controller
     // Metode untuk membatalkan booking
     public function cancelBooking(Reservation $reservation)
     {
-        // Anda bisa tambahkan pengecekan status di sini juga jika perlu
         if ($reservation->status === 'cancelled') {
             return redirect()->back()->with('error', 'Booking sudah dibatalkan sebelumnya.');
         }
 
         $reservation->update(['status' => 'cancelled']);
-        // Anda bisa tambahkan logika pengiriman email pembatalan juga di sini jika diinginkan
         return redirect()->back()->with('success', 'Booking berhasil dibatalkan.');
+    }
+
+    // --- METODE BARU UNTUK MENGELOLA PESANAN (ORDER) ---
+    public function ordersIndex()
+    {
+        // Ambil semua pesanan, urutkan berdasarkan tanggal terbaru
+        $orders = Order::orderBy('created_at', 'desc')->paginate(10);
+
+        return view('backend.admin.kelolaOrder', compact('orders'));
+    }
+
+    // Metode untuk memperbarui status pesanan (Order)
+    public function updateOrderStatus(Request $request, Order $order)
+    {
+        $request->validate([
+            'status' => 'required|string|in:pending,confirmed,preparing,delivered,cancelled',
+        ]);
+
+        $order->status = $request->input('status');
+        $order->save();
+
+        return redirect()->back()->with('success', 'Status pesanan berhasil diperbarui.');
+    }
+    public function destroyBooking(Reservation $reservation)
+    {
+        try {
+            $reservation->delete();
+            return redirect()->back()->with('success', 'Booking berhasil dihapus!');
+        } catch (\Exception $e) {
+            \Log::error('Gagal menghapus booking ID: ' . $reservation->id . '. Error: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus booking.');
+        }
     }
 }
 

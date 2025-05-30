@@ -11,13 +11,11 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    //Dashboard
     public function index(){
         $totalMenu = Menu::count();
         $totalTransaction = Transaction::count();
         $totalReservation = Reservation::count();
 
-        /*dd($totalMenu,$totalTransaction, $totalCategory);*/
         $latestWingster = Menu::with('reservations')->latest()->get()->take(5);
         return view('backend.dashboard', compact('totalMenu', 'totalTransaction','totalReservation','latestWingster'));
     }

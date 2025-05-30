@@ -28,5 +28,9 @@ class Menu extends Model
     {
         return $this->belongsTo(Reservation::class, 'reservation_id');
     }
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class, 'menu_id');
+    }
 }
 

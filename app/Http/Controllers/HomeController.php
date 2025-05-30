@@ -19,11 +19,12 @@ class HomeController extends Controller
     }
     public function menu()
     {
-        $allMenus = Menu::where('is_available', true)
+        $menus = Menu::where('is_available', true)
             ->orderBy('name_menu', 'asc')
             ->get();
-        return view('frontend.content.allMenu', compact('allMenus'));
+        return view('frontend.content.allMenu', compact('menus'));
     }
+
     public function getMenuDetails($id)
     {
         $menu = Menu::find($id); // Mencari menu berdasarkan ID

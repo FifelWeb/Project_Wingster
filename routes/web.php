@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\DeliveryOrderController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\TransactionController;
@@ -45,6 +47,19 @@ Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
 Route::post('/contact/submit', [HomeController::class, 'submitContactForm'])->name('contact.submit');
 
+// routes/web.php
+
+// Rute untuk Keranjang
+Route::get('/menus', [MenuController::class, 'allMenus'])->name('semua.menus');
+Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update'); // Untuk update quantity
+Route::post('/cart/remove', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+// Rute untuk Checkout/Delivery
+Route::get('/checkout', [DeliveryOrderController::class, 'showCheckoutForm'])->name('checkout.show');
+Route::post('/checkout/place-order', [DeliveryOrderController::class, 'placeOrder'])->name('checkout.place');
+Route::get('/order-success/{orderCode}', [DeliveryOrderController::class, 'orderSuccess'])->name('order.success'); // Halaman sukses
 
 /* Login & Register */
 Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
@@ -62,6 +77,11 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/reservations', [AdminController::class, 'admin'])->name('admin.dashboard');
     Route::put('/reservations/{reservation}/confirm', [AdminController::class, 'confirmBooking'])->name('admin.reservations.confirm');
     Route::put('/reservations/{reservation}/cancel', [AdminController::class, 'cancelBooking'])->name('admin.reservations.cancel');
+    Route::delete('/reservations/{reservation}', [AdminController::class, 'destroyBooking'])->name('admin.reservations.destroy');
+
+    // Rute BARU untuk Pesanan (Order)
+    Route::get('/orders', [AdminController::class, 'ordersIndex'])->name('admin.orders.index');
+    Route::put('/orders/{order}/update-status', [AdminController::class, 'updateOrderStatus'])->name('admin.orders.updateStatus');
 
     /*Category*/
     Route::get('/category',[CategoryController::class, 'index'])->name('category.index');

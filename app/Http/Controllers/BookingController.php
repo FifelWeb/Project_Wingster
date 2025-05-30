@@ -6,8 +6,6 @@ use App\Models\Reservation;
 use App\Models\Table;
 use Illuminate\Http\Request;
 
-// Asumsi Anda punya model Reservation/Booking
-
 class BookingController extends Controller
 {
     public function index()
@@ -19,28 +17,24 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nomor_meja' => 'required|exists:tables,id', // Ganti 'mejas' jika tabelnya 'tables'
+            'nomor_meja' => 'required|exists:tables,id',
             'tanggal_booking' => 'required|date|after_or_equal:today',
-            'jam_booking' => 'required|date_format:H:i', // Asumsi ada input jam booking
-            'nama_pemesan' => 'required|string|max:255', // Asumsi ada input nama pemesan
-            'jumlah_orang' => 'required|integer|min:1', // Asumsi ada input jumlah orang
+            'jam_booking' => 'required|date_format:H:i',
+            'nama_pemesan' => 'required|string|max:255',
+            'jumlah_orang' => 'required|integer|min:1',
             'customer_email' => 'required|email|max:255',
-            // Tambahkan validasi lain sesuai kebutuhan form Anda
         ]);
 
         try {
-            // Asumsi Anda punya model Reservation (atau Booking) untuk menyimpan booking
-            // Pastikan tabel 'reservations' ada dan memiliki kolom yang sesuai
             Reservation::create([
-                'user_id' => auth()->id() ?? null, // Jika user login, simpan IDnya, jika tidak null
+                'user_id' => auth()->id() ?? null,
                 'table_id' => $request->nomor_meja,
                 'booking_date' => $request->tanggal_booking,
                 'booking_time' => $request->jam_booking,
-                'customer_name' => $request->nama_pemesan, // Contoh kolom
-                'number_of_guests' => $request->jumlah_orang, // Contoh kolom
+                'customer_name' => $request->nama_pemesan,
+                'number_of_guests' => $request->jumlah_orang,
                 'customer_email' => $request->customer_email,
-                'status' => 'pending', // Status awal: pending, confirmed, cancelled
-                // Tambahkan kolom lain sesuai kebutuhan Anda
+                'status' => 'pending',
             ]);
 
             // Redirect kembali dengan pesan sukses
@@ -52,32 +46,4 @@ class BookingController extends Controller
         }
     }
 }
-
-/*class BookingController extends Controller
-{
-    public function index()
-    {
-        // Ambil semua meja yang tersedia dari database
-        // Anda bisa menambahkan kondisi seperti ->where('tersedia', true) jika diperlukan
-        $table = Table::orderBy('nomor_meja')->get(); // Mengurutkan berdasarkan nomor meja
-
-        return view('frontend.booking.index', compact('table')); // Mengirim data meja ke view 'booking'
-    }
-
-    public function store(Request $request)
-    {
-        // Logika untuk menyimpan booking
-        // dd($request->all()); // Untuk melihat data yang dikirim dari form
-
-        $request->validate([
-            'nomor_meja' => 'required|exists:tables,id', // Pastikan ID meja ada di tabel mejas
-            'tanggal_booking' => 'required|date|after_or_equal:today',
-            // Tambahkan validasi lain sesuai kebutuhan
-        ]);
-
-        // ... logika penyimpanan booking ke database (misal tabel bookings) ...
-
-        return redirect()->back()->with('success', 'Meja berhasil dibooking!');
-    }
-}*/
 

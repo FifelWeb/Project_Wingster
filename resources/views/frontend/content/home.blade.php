@@ -8,10 +8,10 @@
     <style>
         /* --- Hero Section --- */
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ asset('assets-fe/assets/hero-bg.jpg') }}') no-repeat center center; /* Ganti dengan gambar latar belakang Anda */
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('{{ asset('assets-fe/assets/hero-bg.jpg') }}') no-repeat center center;
             background-size: cover;
             color: white;
-            padding: 120px 20px; /* Padding lebih besar untuk kesan grand */
+            padding: 120px 20px;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -23,7 +23,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.4); /* Dark overlay */
+            background: rgba(0, 0, 0, 0.4);
             z-index: 1;
         }
         .hero-section > * {
@@ -32,7 +32,7 @@
         }
         .hero-section h1 {
             font-family: 'Montserrat', sans-serif;
-            font-size: 4.5em; /* Ukuran font lebih besar */
+            font-size: 4.5em;
             margin-bottom: 25px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             font-weight: 700;
@@ -44,12 +44,12 @@
             line-height: 1.8;
         }
         .hero-section .btn-hero {
-            background-color: #FF6347; /* Warna aksen tombol */
+            background-color: #FF6347;
             border-color: #FF6347;
             color: white;
             padding: 15px 35px;
             font-size: 1.2em;
-            border-radius: 50px; /* Tombol bulat */
+            border-radius: 50px;
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
         .hero-section .btn-hero:hover {
@@ -57,7 +57,7 @@
             transform: translateY(-3px);
         }
 
-        /* --- Section Title (Untuk "Menu Makanan Kami") --- */
+        /* --- Section Title --- */
         .section-title {
             font-family: 'Montserrat', sans-serif;
             font-size: 3em;
@@ -65,13 +65,13 @@
             text-align: center;
             margin-bottom: 50px;
             position: relative;
-            padding-top: 50px; /* Padding agar tidak terlalu mepet dengan section atas */
+            padding-top: 50px;
         }
         .section-title::after {
             content: '';
             display: block;
-            width: 100px; /* Garis lebih panjang */
-            height: 5px; /* Lebih tebal */
+            width: 100px;
+            height: 5px;
             background-color: #FFD700;
             margin: 15px auto 0;
             border-radius: 3px;
@@ -80,39 +80,39 @@
         /* --- Menu Grid & Item --- */
         .menu-section {
             padding: 50px 20px;
-            max-width: 1200px;
+            max-width: 1200px; /* Keep this or slightly increase if needed for overall section width */
             margin: 0 auto;
         }
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* Tetap 3 kolom untuk home */
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted minmax for slightly wider cards */
             gap: 30px;
-            max-width: 1000px;
+            max-width: 1100px; /* Increased max-width for the grid to make items wider */
             margin: 0 auto;
         }
         .menu-item {
             background-color: #ffffff;
             border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.1); /* Bayangan lebih dalam */
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
             transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
-            border: 1px solid #e0e0e0; /* Border tipis */
+            border: 1px solid #e0e0e0;
         }
         .menu-item:hover {
-            transform: translateY(-10px); /* Efek mengangkat lebih tinggi */
-            box-shadow: 0 12px 30px rgba(0,0,0,0.2); /* Bayangan lebih kuat */
+            transform: translateY(-10px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.2);
         }
         .menu-item img {
             width: 100%;
-            height: 250px; /* Tinggi gambar sedikit lebih besar */
-            object-fit: cover;
+            height: 220px; /* Slightly reduced height to make cards appear wider visually */
+            object-fit: cover; /* Crucial for preventing image cutoff */
             display: block;
             border-bottom: 1px solid #f0f0f0;
         }
         .menu-item-content {
-            padding: 25px; /* Padding lebih besar */
+            padding: 25px;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
@@ -122,7 +122,7 @@
             margin-top: 0;
             margin-bottom: 12px;
             color: #333;
-            font-size: 1.8em; /* Ukuran judul menu lebih besar */
+            font-size: 1.8em;
             font-weight: 700;
         }
         .menu-item p {
@@ -130,7 +130,7 @@
             color: #777;
             font-size: 1em;
             line-height: 1.7;
-            min-height: 80px; /* Sesuaikan atau hapus jika deskripsi sangat bervariasi */
+            min-height: 80px; /* Keep or adjust as needed */
             flex-grow: 1;
             margin-bottom: 20px;
         }
@@ -140,7 +140,7 @@
             margin-top: auto;
             font-weight: bold;
             color: #FF6347;
-            font-size: 1.6em; /* Ukuran font harga lebih besar */
+            font-size: 1.6em;
             text-align: right;
         }
 
@@ -155,7 +155,7 @@
             background-color: #4CAF50;
             color: white;
             text-decoration: none;
-            border-radius: 50px; /* Tombol bulat */
+            border-radius: 50px;
             font-size: 1.2em;
             font-weight: bold;
             transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
@@ -170,7 +170,7 @@
         /* --- Google Maps Section --- */
         .map-section {
             padding: 60px 0;
-            background-color: #f0f0f0; /* Latar belakang section peta */
+            background-color: #f0f0f0;
             text-align: center;
         }
         .map-section h2 {
@@ -185,21 +185,26 @@
             display: block;
             width: 80px;
             height: 4px;
-            background-color: #FF6347; /* Warna aksen yang berbeda untuk peta */
+            background-color: #FF6347;
             margin: 15px auto 0;
             border-radius: 2px;
         }
         .map-container {
-            max-width: 900px; /* Ukuran maksimum peta */
+            max-width: 900px;
             margin: 0 auto;
             border-radius: 12px;
-            overflow: hidden; /* Pastikan peta mengikuti border-radius */
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* Bayangan pada peta */
+            overflow: hidden;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
         }
         .map-container iframe {
             width: 100%;
-            height: 450px; /* Tinggi peta */
+            height: 450px;
             display: block;
+        }
+        .lead.mt-4.text-muted {
+            font-size: 1.2em;
+            color: #666 !important;
+            margin-top: 25px !important;
         }
 
         /* --- CSS untuk Modal --- */
@@ -219,24 +224,23 @@
         }
         .modal-content {
             background-color: #fefefe;
-            margin: auto; /* Untuk pusatkan di browser lama */
+            margin: auto;
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.3);
             width: 90%;
-            max-width: 600px; /* Lebar maksimal modal */
-            position: relative; /* Untuk tombol close */
+            max-width: 600px;
+            position: relative;
             animation-name: animatetop;
             animation-duration: 0.4s;
         }
-        /* Animasi muncul dari atas */
         @keyframes animatetop {
             from {top: -300px; opacity: 0}
             to {top: 0; opacity: 1}
         }
         .close-button {
             color: #aaa;
-            float: right; /* Posisikan di kanan atas */
+            float: right;
             font-size: 36px;
             font-weight: bold;
             position: absolute;
@@ -256,7 +260,7 @@
         }
         .modal-image {
             max-width: 100%;
-            height: 250px; /* Tinggi gambar modal */
+            height: 250px;
             object-fit: cover;
             border-radius: 10px;
             margin-bottom: 20px;
@@ -282,99 +286,48 @@
             color: #FF6347;
         }
 
-        /* --- Responsiveness (Tambahan dan Penyesuaian) --- */
-        @media (max-width: 991px) { /* Tablet */
-            .hero-section h1 {
-                font-size: 3.5em;
-            }
-            .hero-section p {
-                font-size: 1.2em;
-            }
-            .section-title {
-                font-size: 2.5em;
-            }
+        /* --- Responsiveness --- */
+        @media (max-width: 1200px) { /* Adjust grid for wider screens if necessary */
             .menu-grid {
-                grid-template-columns: repeat(2, 1fr); /* 2 kolom di tablet */
-                max-width: 700px;
-            }
-            .map-container iframe {
-                height: 350px;
-            }
-            /* Modal */
-            .modal-content {
-                width: 90%;
+                max-width: 90%; /* Allow grid to take more width on larger screens */
             }
         }
 
+        @media (max-width: 991px) { /* Tablet */
+            .hero-section h1 { font-size: 3.5em; }
+            .hero-section p { font-size: 1.2em; }
+            .section-title { font-size: 2.5em; }
+            .menu-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Back to 280px min for tablets */
+                max-width: 700px; /* Adjusted max-width */
+            }
+            .map-container iframe { height: 350px; }
+            .modal-content { width: 90%; }
+        }
+
         @media (max-width: 767px) { /* Ponsel */
-            .hero-section {
-                padding: 80px 15px;
-            }
-            .hero-section h1 {
-                font-size: 2.8em;
-            }
-            .hero-section p {
-                font-size: 1em;
-            }
-            .hero-section .btn-hero {
-                padding: 12px 25px;
-                font-size: 1.1em;
-            }
-            .section-title {
-                font-size: 2em;
-                margin-bottom: 30px;
-            }
+            .hero-section { padding: 80px 15px; }
+            .hero-section h1 { font-size: 2.8em; }
+            .hero-section p { font-size: 1em; }
+            .hero-section .btn-hero { padding: 12px 25px; font-size: 1.1em; }
+            .section-title { font-size: 2em; margin-bottom: 30px; }
             .menu-grid {
                 grid-template-columns: 1fr; /* 1 kolom di ponsel */
                 max-width: 90%;
             }
-            .menu-item img {
-                height: 200px;
-            }
-            .menu-item h3 {
-                font-size: 1.5em;
-            }
-            .menu-item p {
-                min-height: unset; /* Lepaskan min-height untuk ponsel */
-            }
-            .menu-item .harga {
-                font-size: 1.3em;
-            }
-            .view-all-button {
-                padding: 12px 30px;
-                font-size: 1.1em;
-            }
-            .map-section {
-                padding: 40px 0;
-            }
-            .map-section h2 {
-                font-size: 2em;
-            }
-            .map-container iframe {
-                height: 300px;
-            }
-            /* Modal */
-            .modal-content {
-                width: 95%; /* Lebar modal lebih besar di ponsel */
-                padding: 20px;
-            }
-            #modalMenuName {
-                font-size: 1.8em;
-            }
-            #modalMenuDescription {
-                font-size: 0.95em;
-            }
-            .modal-price {
-                font-size: 1.3em;
-            }
-            .modal-image {
-                height: 180px;
-            }
-        }
-
-        /* Untuk ponsel sangat kecil (kurang dari 480px, jika perlu penyesuaian ekstra) */
-        @media (max-width: 480px) {
-            /* Tambahkan penyesuaian khusus jika diperlukan */
+            .menu-item img { height: 180px; } /* Further reduced height for smaller screens */
+            .menu-item h3 { font-size: 1.5em; }
+            .menu-item p { min-height: unset; }
+            .menu-item .harga { font-size: 1.3em; }
+            .view-all-button { padding: 12px 30px; font-size: 1.1em; }
+            .map-section { padding: 40px 0; }
+            .map-section h2 { font-size: 2em; }
+            .map-container iframe { height: 300px; }
+            .modal-content { width: 95%; padding: 20px; }
+            #modalMenuName { font-size: 1.8em; }
+            #modalMenuDescription { font-size: 0.95em; }
+            .modal-price { font-size: 1.3em; }
+            .modal-image { height: 160px; }
         }
     </style>
 
@@ -389,6 +342,7 @@
                         <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xl-start">
                             <a class="btn btn-primary btn-lg px-4 me-sm-3 btn-hero" href="{{ route('all.menus') }}">Lihat Semua Menu</a>
                             <a class="btn btn-outline-light btn-lg px-4 btn-hero" href="{{ route('booking.index') }}">Pesan Meja Sekarang</a>
+                            <a class="btn btn-outline-light btn-lg px-4 btn-hero" href="{{ route('semua.menus') }}">Order Sekarang</a>
                         </div>
                     </div>
                 </div>
@@ -402,7 +356,7 @@
             <h2 class="section-title">Menu Makanan Kami</h2>
 
             @if($limitedMenus->isEmpty())
-                <div class="empty-menu-message">
+                <div class="empty-menu-message alert alert-info text-center">
                     <p>Maaf, belum ada menu spesial yang tersedia saat ini. Silakan kunjungi kembali nanti!</p>
                 </div>
             @else
@@ -433,8 +387,7 @@
         <div class="container px-5">
             <h2>Lokasi Kami</h2>
             <div class="map-container">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.727960784663!2d110.
-                59823469999999!3d-7.712312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a45b9dba934dd%3A0x409e300535a61ba8!2sWingster!5e0!3m2!1sen!2sid!4v1748580451066!5m2!1sen!2sid"
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3953.727960784663!2d110.59823469999999!3d-7.712312!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a45b9dba934dd%3A0x409e300535a61ba8!2sWingster!5e0!3m2!1sen!2sid!4v1748580451066!5m2!1sen!2sid"
                         width="800"
                         height="600" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
@@ -445,7 +398,7 @@
     {{-- Bagian Modal Detail Menu --}}
     <div id="menuDetailModal" class="modal">
         <div class="modal-content">
-            <span class="close-button">&times;</span>
+            <span class="close-button">×</span>
             <div class="modal-body">
                 <img id="modalMenuImage" src="" alt="Menu Image" class="modal-image">
                 <h2 id="modalMenuName"></h2>
@@ -495,7 +448,7 @@
                             // Isi data ke dalam modal
                             modalMenuImage.src = `{{ asset('storage') }}/${data.image}`;
                             modalMenuName.textContent = data.name_menu;
-                            modalMenuDescription.textContent = data.ddecription;
+                            modalMenuDescription.textContent = data.description;
                             modalMenuPrice.textContent = `Rp ${new Intl.NumberFormat('id-ID').format(data.price)}`;
 
                             openModal(); // Tampilkan modal
