@@ -24,12 +24,23 @@ use App\Http\Controllers\CategoryController;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+// Rute root '/'
 Route::get('/', function () {
+    // Jika user sudah login, arahkan berdasarkan role
     if (Auth::check()) {
-        return redirect()->route(Auth::user()->role === 'admin' ? 'dashboard.index' : 'home.index');
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('dashboard.index'); // Admin ke dashboard
+        } else {
+            return redirect()->route('home.index'); // Customer ke home.index
+        }
     }
+    // Jika belum login, arahkan ke halaman login
     return redirect()->route('auth.login');
-});
+})->name('root'); // Beri nama rute ini agar mudah direferensikan
+
+/*Route Home*/
+Route::get('/our-menu', [HomeController::class, 'menu'])->name('all.menus');
+Route::get('/menu/{id}/details', [HomeController::class, 'getMenuDetails'])->name('menu.details');
 
 /* Login & Register */
 Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
@@ -40,12 +51,29 @@ Route::post('/register', [AuthController::class, 'registerPost'])->name('auth.re
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 
+
 /* Admin Routes */
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
     Route::get('/reservations', [AdminController::class, 'admin'])->name('admin.dashboard');
     Route::put('/reservations/{reservation}/confirm', [AdminController::class, 'confirmBooking'])->name('admin.reservations.confirm');
     Route::put('/reservations/{reservation}/cancel', [AdminController::class, 'cancelBooking'])->name('admin.reservations.cancel');
+
+    /*Category*/
+    Route::get('/category',[CategoryController::class, 'index'])->name('category.index');
+    Route::get('/category/add',[CategoryController::class, 'add'])->name('category.add');
+    Route::post('/category/store',[CategoryController::class, 'store'])->name('category.store');
+    Route::get('/category/edit{id}',[CategoryController::class, 'edit'])->name('category.edit');
+    Route::post('/category/update',[CategoryController::class, 'update'])->name('category.update');
+    Route::post('/category/delete{id}',[CategoryController::class, 'delete'])->name('category.delete');
+
+    /*Route Menu*/
+    Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
+    Route::get('/menu/add', [MenuController::class, 'add'])->name('menu.add');
+    Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
+    Route::get('/menu/edit{id}', [MenuController::class, 'edit'])->name('menu.edit');
+    Route::put('/menu/update{id}', [MenuController::class, 'update'])->name('menu.update');
+    Route::delete('menu/delete{id}', [MenuController::class, 'delete'])->name('menu.delete');
 });
 /* Customer Routes */
 Route::middleware(['auth', 'role:customer'])->group(function () {
@@ -53,21 +81,9 @@ Route::middleware(['auth', 'role:customer'])->group(function () {
 });
 
 
-/*Category*/
-Route::get('/category',[CategoryController::class, 'index'])->name('category.index');
-Route::get('/category/add',[CategoryController::class, 'add'])->name('category.add');
-Route::post('/category/store',[CategoryController::class, 'store'])->name('category.store');
-Route::get('/category/edit{id}',[CategoryController::class, 'edit'])->name('category.edit');
-Route::post('/category/update',[CategoryController::class, 'update'])->name('category.update');
-Route::post('/category/delete{id}',[CategoryController::class, 'delete'])->name('category.delete');
 
-/*Route Menu*/
-Route::get('/menu', [MenuController::class, 'index'])->name('menu.index');
-Route::get('/menu/add', [MenuController::class, 'add'])->name('menu.add');
-Route::post('/menu/store', [MenuController::class, 'store'])->name('menu.store');
-Route::get('/menu/edit{id}', [MenuController::class, 'edit'])->name('menu.edit');
-Route::put('/menu/update{id}', [MenuController::class, 'update'])->name('menu.update');
-Route::delete('menu/delete{id}', [MenuController::class, 'delete'])->name('menu.delete');
+
+
 
 
 /*Route Transaction*/
